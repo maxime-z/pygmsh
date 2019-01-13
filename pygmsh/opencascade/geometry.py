@@ -233,7 +233,7 @@ class Geometry(bl.Geometry):
         # > out[0]) as well as the newly created volume (in out[1]).
         #
         top = "{}[0]".format(name)
-        extruded = "{}[1]".format(name)
+        extruded = "{}[]".format(name)
 
         top = SurfaceBase(top)
         extruded = VolumeBase(is_list=False, id0=extruded)
