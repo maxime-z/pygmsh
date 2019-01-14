@@ -3,9 +3,6 @@
 
 import numpy
 
-from ..__about__ import __version__
-from ..helpers import _is_string
-
 from .bspline import Bspline
 from .circle_arc import CircleArc
 from .compound_line import CompoundLine
@@ -25,6 +22,8 @@ from .surface_base import SurfaceBase
 from .surface_loop import SurfaceLoop
 from .volume import Volume
 from .volume_base import VolumeBase
+from ..__about__ import __version__
+from ..helpers import _is_string
 
 
 class Geometry(object):
@@ -222,15 +221,15 @@ class Geometry(object):
         return
 
     def add_circle(
-        self,
-        x0,
-        radius,
-        lcar=None,
-        R=None,
-        compound=False,
-        num_sections=3,
-        holes=None,
-        make_surface=True,
+            self,
+            x0,
+            radius,
+            lcar=None,
+            R=None,
+            compound=False,
+            num_sections=3,
+            holes=None,
+            make_surface=True,
     ):
         """Add circle in the :math:`x`-:math:`y`-plane.
         """
@@ -285,16 +284,16 @@ class Geometry(object):
 
         class Circle(object):
             def __init__(
-                self,
-                x0,
-                radius,
-                R,
-                compound,
-                num_sections,
-                holes,
-                line_loop,
-                plane_surface,
-                lcar=None,
+                    self,
+                    x0,
+                    radius,
+                    R,
+                    compound,
+                    num_sections,
+                    holes,
+                    line_loop,
+                    plane_surface,
+                    lcar=None,
             ):
                 self.x0 = x0
                 self.radius = radius
@@ -320,14 +319,14 @@ class Geometry(object):
         )
 
     def extrude(
-        self,
-        input_entity,
-        translation_axis=None,
-        rotation_axis=None,
-        point_on_axis=None,
-        angle=None,
-        num_layers=None,
-        recombine=False,
+            self,
+            input_entity,
+            translation_axis=None,
+            rotation_axis=None,
+            point_on_axis=None,
+            angle=None,
+            num_layers=None,
+            recombine=False,
     ):
         """Extrusion (translation + rotation) of any entity along a given
         translation_axis, around a given rotation_axis, about a given angle. If
@@ -367,7 +366,7 @@ class Geometry(object):
                 )
         else:
             assert (
-                rotation_axis is not None
+                    rotation_axis is not None
             ), "Specify at least translation or rotation."
             # Only rotation
             extrusion_string += "{}[] = Extrude{{{{{}}}, {{{}}}, {}}}{{{};".format(
@@ -425,15 +424,15 @@ class Geometry(object):
         return top, extruded, lat
 
     def add_boundary_layer(
-        self,
-        edges_list=None,
-        faces_list=None,
-        nodes_list=None,
-        anisomax=None,
-        hfar=None,
-        hwall_n=None,
-        ratio=None,
-        thickness=None,
+            self,
+            edges_list=None,
+            faces_list=None,
+            nodes_list=None,
+            anisomax=None,
+            hfar=None,
+            hwall_n=None,
+            ratio=None,
+            thickness=None,
     ):
         # Don't use [] as default argument, cf.
         # <https://stackoverflow.com/a/113198/353337>
@@ -505,7 +504,7 @@ class Geometry(object):
         return
 
     def add_rectangle(
-        self, xmin, xmax, ymin, ymax, z, lcar=None, holes=None, make_surface=True
+            self, xmin, xmax, ymin, ymax, z, lcar=None, holes=None, make_surface=True
     ):
         return self.add_polygon(
             [[xmin, ymin, z], [xmax, ymin, z], [xmax, ymax, z], [xmin, ymax, z]],
@@ -682,13 +681,13 @@ class Geometry(object):
         return Box(x0, x1, y0, y1, z0, z1, surface_loop, vol, lcar=lcar)
 
     def add_torus(
-        self,
-        irad,
-        orad,
-        lcar=None,
-        R=numpy.eye(3),
-        x0=numpy.array([0.0, 0.0, 0.0]),
-        variant="extrude_lines",
+            self,
+            irad,
+            orad,
+            lcar=None,
+            R=numpy.eye(3),
+            x0=numpy.array([0.0, 0.0, 0.0]),
+            variant="extrude_lines",
     ):
 
         if variant == "extrude_lines":
@@ -697,7 +696,7 @@ class Geometry(object):
         return self._add_torus_extrude_circle(irad, orad, lcar=lcar, R=R, x0=x0)
 
     def _add_torus_extrude_lines(
-        self, irad, orad, lcar=None, R=numpy.eye(3), x0=numpy.array([0.0, 0.0, 0.0])
+            self, irad, orad, lcar=None, R=numpy.eye(3), x0=numpy.array([0.0, 0.0, 0.0])
     ):
         """Create Gmsh code for the torus in the x-y plane under the coordinate
         transformation
@@ -756,7 +755,7 @@ class Geometry(object):
         return vol
 
     def _add_torus_extrude_circle(
-        self, irad, orad, lcar=None, R=numpy.eye(3), x0=numpy.array([0.0, 0.0, 0.0])
+            self, irad, orad, lcar=None, R=numpy.eye(3), x0=numpy.array([0.0, 0.0, 0.0])
     ):
         """Create Gmsh code for the torus under the coordinate transformation
 
@@ -804,14 +803,14 @@ class Geometry(object):
         return vol
 
     def add_pipe(
-        self,
-        outer_radius,
-        inner_radius,
-        length,
-        R=numpy.eye(3),
-        x0=numpy.array([0.0, 0.0, 0.0]),
-        lcar=None,
-        variant="rectangle_rotation",
+            self,
+            outer_radius,
+            inner_radius,
+            length,
+            R=numpy.eye(3),
+            x0=numpy.array([0.0, 0.0, 0.0]),
+            lcar=None,
+            variant="rectangle_rotation",
     ):
         if variant == "rectangle_rotation":
             return self._add_pipe_by_rectangle_rotation(
@@ -823,13 +822,13 @@ class Geometry(object):
         )
 
     def _add_pipe_by_rectangle_rotation(
-        self,
-        outer_radius,
-        inner_radius,
-        length,
-        R=numpy.eye(3),
-        x0=numpy.array([0.0, 0.0, 0.0]),
-        lcar=None,
+            self,
+            outer_radius,
+            inner_radius,
+            length,
+            R=numpy.eye(3),
+            x0=numpy.array([0.0, 0.0, 0.0]),
+            lcar=None,
     ):
         """Hollow cylinder.
         Define a rectangle, extrude it by rotation.
@@ -892,13 +891,13 @@ class Geometry(object):
         return vol
 
     def _add_pipe_by_circle_extrusion(
-        self,
-        outer_radius,
-        inner_radius,
-        length,
-        R=numpy.eye(3),
-        x0=numpy.array([0.0, 0.0, 0.0]),
-        lcar=None,
+            self,
+            outer_radius,
+            inner_radius,
+            length,
+            R=numpy.eye(3),
+            x0=numpy.array([0.0, 0.0, 0.0]),
+            lcar=None,
     ):
         """Hollow cylinder.
         Define a ring, extrude it by translation.
@@ -931,3 +930,19 @@ class Geometry(object):
                 input_entity.id,
             )
         )
+
+    def rotate(self, input_entity, vector, angle, second_vector=[0, 0, 0]):
+        """Translates input_entity itself by vector.
+
+        Changes the input object.
+        """
+        d = {1: "Line", 2: "Surface", 3: "Volume"}
+
+        first_exp = '{%s}' % (", ".join([str(co) for co in vector]))
+        second_exp = '{%s}' % (", ".join([str(co) for co in second_vector]))
+
+        gmsh_code = 'Rotate {%s, %s, %f} {%s{%s};}' % (
+            first_exp, second_exp, angle, d[input_entity.dimension],
+            input_entity.id)
+
+        self._GMSH_CODE.append(gmsh_code)

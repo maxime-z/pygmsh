@@ -23,7 +23,6 @@ class Rectangle(SurfaceBase):
         super(Rectangle, self).__init__()
 
         assert len(x0) == 3
-
         self.x0 = x0
         self.a = a
         self.b = b

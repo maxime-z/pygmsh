@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 #
-from ..__about__ import __version__
-
-from .. import built_in
-
 from .ball import Ball
 from .box import Box
 from .cone import Cone
@@ -13,8 +9,10 @@ from .dummy import Dummy
 from .rectangle import Rectangle
 from .surface_base import SurfaceBase
 from .torus import Torus
-from .wedge import Wedge
 from .volume_base import VolumeBase
+from .wedge import Wedge
+from .. import built_in
+from ..__about__ import __version__
 from ..built_in import geometry as bl
 
 
@@ -85,12 +83,12 @@ class Geometry(bl.Geometry):
         return p
 
     def _boolean_operation(
-        self,
-        operation,
-        input_entities,
-        tool_entities,
-        delete_first=True,
-        delete_other=True,
+            self,
+            operation,
+            input_entities,
+            tool_entities,
+            delete_first=True,
+            delete_other=True,
     ):
         """Boolean operations, see
         https://gmsh.info/doc/texinfo/gmsh.html#Boolean-operations input_entity
@@ -110,7 +108,7 @@ class Geometry(bl.Geometry):
         )
         for e in input_entities[1:] + tool_entities:
             assert (
-                e.dimension == dim
+                    e.dimension == dim
             ), "Incompatible input type '{}' for Boolean operation.".format(type(e))
 
         name = "bo{}".format(self._BOOLEAN_ID)
@@ -123,16 +121,16 @@ class Geometry(bl.Geometry):
 
         if input_entities:
             formatted_input_entities = (
-                ";".join(["%s{%s}" % (legal_dim_type, e.id) for e in input_entities])
-                + ";"
+                    ";".join(["%s{%s}" % (legal_dim_type, e.id) for e in input_entities])
+                    + ";"
             )
         else:
             formatted_input_entities = ""
 
         if tool_entities:
             formatted_tool_entities = (
-                ";".join(["%s{%s}" % (legal_dim_type, e.id) for e in tool_entities])
-                + ";"
+                    ";".join(["%s{%s}" % (legal_dim_type, e.id) for e in tool_entities])
+                    + ";"
             )
         else:
             formatted_tool_entities = ""
@@ -236,6 +234,6 @@ class Geometry(bl.Geometry):
         extruded = "{}[1]".format(name)
 
         top = SurfaceBase(top)
-        extruded = VolumeBase(is_list=False, id0=extruded)
+        extruded = VolumeBase(is_list=True, id0=extruded)
 
         return top, extruded
